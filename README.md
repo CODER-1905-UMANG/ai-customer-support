@@ -1,463 +1,356 @@
 # AI Customer Support & Ticket Automation System
 
-An AI-powered customer support system that combines **RAG, AI agents, tool calling, conversation memory, and automated ticket management** to handle customer queries and support workflows.
+An AI-powered customer support application that combines **RAG,
+embeddings, an AI agent, tool calling, conversation memory, ticket
+automation, and human escalation** to handle both knowledge-based and
+action-based customer requests.
 
-The system can answer company-specific questions from a knowledge base, check order and payment information, create support tickets, maintain conversation context, and escalate complex issues to human support.
+## 1. Project Overview
 
----
+This project was developed as a 3-week Generative AI project assignment
+for DSTARIX TECHNO.
 
-## 1. Overview
+The system is designed to handle common customer-support requests such
+as:
 
-Traditional customer support systems often require users to navigate multiple pages or wait for a support agent.
+-   Order status
+-   Payment information
+-   Refund and cancellation policies
+-   Shipping and product questions
+-   Support-ticket creation
+-   Human escalation
+-   Follow-up questions using conversation context
 
-This project provides an AI-powered support assistant that can:
+Unlike a basic LLM chatbot, the application combines **RAG + Agent +
+Tools + Memory + APIs + Database + Testing**.
 
-- Understand customer questions
-- Search company knowledge using RAG
-- Retrieve order information
-- Retrieve payment information
-- Create support tickets
-- Escalate issues to human support
-- Maintain conversation context
-- Handle multiple requests in a single message
-- Provide source information for knowledge-based answers
-- Handle invalid inputs and service failures gracefully
-
-The system is designed as an **AI support automation platform**, rather than a simple LLM chatbot.
-
----
+------------------------------------------------------------------------
 
 ## 2. Problem Statement
 
-Customer support systems commonly face the following challenges:
+Customer-support teams receive repetitive requests involving orders,
+payments, refunds, cancellations, delivery, products, accounts, and
+company policies.
 
-- Repetitive support questions
-- Slow access to company policies
-- Manual order and payment verification
-- Difficulty maintaining context across messages
-- High workload for human support teams
-- Lack of automated ticket creation
-- Difficulty handling complex or unresolved issues
+The objective is to automate common requests while allowing the AI
+system to:
 
-This project addresses these problems by combining an AI assistant with company knowledge, application tools, conversation memory, and ticket automation.
+1.  Retrieve reliable company-specific information.
+2.  Perform application actions through tools.
+3.  Maintain conversation context.
+4.  Create support tickets.
+5.  Escalate issues that require human intervention.
 
----
+------------------------------------------------------------------------
 
 ## 3. Objectives
 
-The main objectives are:
+-   Build a functional AI customer-support system.
+-   Implement Retrieval-Augmented Generation (RAG).
+-   Generate and store text embeddings.
+-   Use MongoDB Atlas Vector Search for semantic retrieval.
+-   Implement an AI agent for intent/action selection.
+-   Implement functional tools for order, payment, ticket, and
+    escalation workflows.
+-   Maintain conversation memory.
+-   Provide backend APIs.
+-   Handle invalid input and service failures gracefully.
+-   Test the required customer-support scenarios.
+-   Provide documentation, screenshots, architecture, and demo material.
 
-1. Build an AI-powered customer support assistant.
-2. Implement Retrieval-Augmented Generation (RAG).
-3. Store and retrieve company knowledge using embeddings.
-4. Implement an AI agent capable of selecting appropriate actions.
-5. Implement tool calling for real application operations.
-6. Maintain conversation memory.
-7. Automate support ticket creation.
-8. Support human escalation.
-9. Provide backend APIs for support operations.
-10. Implement error handling and automated testing.
+------------------------------------------------------------------------
 
----
+## 4. Key Features
 
-## 4. Features
+### Customer Support
 
-### AI Support Assistant
+-   Natural-language customer queries.
+-   Knowledge-base questions.
+-   Order status lookup.
+-   Payment status lookup.
+-   Support-ticket creation.
+-   Human escalation.
 
-The assistant can understand different types of customer requests and route them to the appropriate workflow.
+### Generative AI
 
-### Knowledge Base Search
+-   Groq LLM integration.
+-   AI-based intent/action selection.
+-   Grounded RAG responses.
+-   Context-aware responses.
 
-Company-specific questions are answered using the internal knowledge base through RAG.
+### RAG
 
-### RAG Pipeline
+-   Markdown knowledge-base documents.
+-   Document loading.
+-   Text chunking with overlap.
+-   Hugging Face embeddings.
+-   MongoDB Atlas Vector Search.
+-   Relevant context retrieval.
+-   Source references in responses.
 
-The system processes knowledge documents, creates chunks, generates embeddings, stores them in MongoDB Atlas Vector Search, retrieves relevant chunks, and provides the retrieved context to the LLM.
+### Agent & Tools
 
-### AI Agent
-
-The agent determines whether the request requires:
-
-- Knowledge search
-- Order status lookup
-- Payment status lookup
-- Support ticket creation
-- Human escalation
-- Direct handling of unknown requests
-
-### Tool Calling
-
-The system currently provides four functional tools:
-
-1. Order status
-2. Payment status
-3. Support ticket creation
-4. Human escalation
+-   AI agent determines the required action.
+-   Order-status tool.
+-   Payment-status tool.
+-   Support-ticket tool.
+-   Human-escalation tool.
+-   Multiple actions can be processed in a single request.
 
 ### Conversation Memory
 
-The system stores conversation history and context.
-
-For example:
-
-```text
-User: Where is my order 45821?
-
-Assistant: Your order 45821 has been shipped...
-
-User: When will it arrive?
-
-Assistant: Your order 45821 is expected to arrive...
-```
-
-The second message does not repeat the order number. The system uses the stored conversation context.
-
-### Multiple Requests
-
-The agent can handle multiple requests in a single message.
+Conversation history and relevant context are stored in MongoDB.
 
 Example:
 
-```text
-Where is my order 45821 and what payment method did I use?
+``` text
+Customer: Where is my order 45821?
+
+Customer: When will it arrive?
+
+System: Understands that "it" refers to order 45821.
 ```
 
-The system can execute both the order and payment tools and combine their results.
+### Error Handling
 
-### Human Escalation
+The application includes validation and fallback handling for:
 
-Customers can request human support, and appropriate unresolved issues can be escalated by creating a high-priority support ticket.
+-   Invalid input
+-   Invalid order IDs
+-   Missing information
+-   Tool failures
+-   LLM/API failures
+-   Retrieval failures
+-   Empty retrieval results
+-   Invalid tool parameters
+-   Ticket creation failures
 
-### Ticket Automation
+------------------------------------------------------------------------
 
-Support tickets contain information such as:
+## 5. Technology Stack
 
-- Ticket ID
-- Customer
-- Subject
-- Description
-- Category
-- Priority
-- Status
-- Source
-- Escalation reason
+### Frontend
 
----
+-   React
+-   Vite
+-   JavaScript
+-   CSS / Inline UI styling
 
-# 5. Technology Stack
+### Backend
 
-## Frontend
+-   Node.js
+-   Express.js
+-   REST APIs
 
-- React
-- Vite
-- JavaScript
-- CSS / Inline styling
+### Database
 
-## Backend
+-   MongoDB Atlas
+-   Mongoose
+-   MongoDB Atlas Vector Search
 
-- Node.js
-- Express.js
-- ES Modules
+### Generative AI
 
-## Database
+-   Groq API
+-   `openai/gpt-oss-20b`
 
-- MongoDB Atlas
-- Mongoose
+### Embeddings
 
-## AI / LLM
+-   Hugging Face Transformers
+-   `Xenova/all-MiniLM-L6-v2`
+-   384-dimensional embeddings
 
-- Groq
-- `openai/gpt-oss-20b`
+### Testing
 
-## Embeddings
+-   Jest
+-   Supertest
 
-- Hugging Face Transformers
-- `Xenova/all-MiniLM-L6-v2`
-- 384-dimensional embeddings
+### Development Tools
 
-## Vector Search
+-   Git
+-   GitHub
+-   VS Code
+-   Postman
 
-- MongoDB Atlas Vector Search
-- Cosine similarity
+------------------------------------------------------------------------
 
-## Testing
+## 6. System Architecture
 
-- Jest
-- Supertest
-
-## Development Tools
-
-- Git
-- GitHub
-- Postman
-- VS Code
-- npm
-
----
-
-# 6. System Architecture
-
-```text
+``` text
                          ┌─────────────────────┐
                          │      Customer       │
                          └──────────┬──────────┘
                                     │
                                     ▼
                          ┌─────────────────────┐
-                         │   React Frontend   │
+                         │    React Frontend   │
                          └──────────┬──────────┘
-                                    │
-                              HTTP / JSON
-                                    │
+                                    │ HTTP
                                     ▼
                          ┌─────────────────────┐
-                         │ Express.js Backend  │
-                         │      API Layer      │
+                         │   Express Backend   │
                          └──────────┬──────────┘
                                     │
                                     ▼
                          ┌─────────────────────┐
-                         │    AI Agent         │
-                         │   Agent Router      │
-                         └──────┬──────┬───────┘
-                                │      │
-              ┌─────────────────┘      └─────────────────┐
-              │                                          │
-              ▼                                          ▼
-   ┌─────────────────────┐                    ┌─────────────────────┐
-   │       RAG           │                    │       Tools         │
-   │                     │                    │                     │
-   │ Query Embedding     │                    │ Order Status        │
-   │ Vector Search       │                    │ Payment Status      │
-   │ Context Retrieval   │                    │ Ticket Creation     │
-   │ LLM Generation      │                    │ Human Escalation    │
-   └──────────┬──────────┘                    └──────────┬──────────┘
-              │                                          │
-              ▼                                          ▼
-   ┌─────────────────────┐                    ┌─────────────────────┐
-   │ MongoDB Atlas       │                    │ MongoDB Atlas       │
-   │ Vector Search       │                    │ Application Data    │
-   │                     │                    │                     │
-   │ Knowledge Chunks    │                    │ Customers           │
-   │ Embeddings          │                    │ Orders              │
-   └─────────────────────┘                    │ Payments            │
-                                              │ Tickets             │
-                                              │ Conversations       │
-                                              └─────────────────────┘
+                         │      AI Agent       │
+                         └──────┬─────┬────────┘
+                                │     │
+                 ┌──────────────┘     └─────────────────┐
+                 ▼                                      ▼
+       ┌─────────────────────┐                ┌─────────────────────┐
+       │    RAG Pipeline     │                │   Application Tools │
+       └──────────┬──────────┘                └──────────┬──────────┘
+                  │                                      │
+                  ▼                                      ▼
+       ┌─────────────────────┐                ┌─────────────────────┐
+       │ MongoDB Vector      │                │ MongoDB Application │
+       │ Search              │                │ Data                │
+       └──────────┬──────────┘                └──────────┬──────────┘
+                  │                                      │
+                  ▼                                      ├── Orders
+       ┌─────────────────────┐                           ├── Payments
+       │ Knowledge Base      │                           ├── Customers
+       │ Markdown Documents  │                           └── Tickets
+       └─────────────────────┘
 
                          ┌─────────────────────┐
-                         │       Groq LLM      │
-                         │   gpt-oss-20b       │
+                         │     Groq LLM        │
+                         └─────────────────────┘
+
+                         ┌─────────────────────┐
+                         │ Conversation Memory│
+                         │     MongoDB         │
                          └─────────────────────┘
 ```
 
----
+Detailed architecture diagram:
 
-# 7. Project Structure
+`docs/architecture.png`
 
-```text
-ai-customer-support/
-│
-├── backend/
-│   ├── src/
-│   │   ├── agents/
-│   │   │   ├── agentService.js
-│   │   │   └── agentRouter.js
-│   │   │
-│   │   ├── config/
-│   │   │   └── db.js
-│   │   │
-│   │   ├── controllers/
-│   │   │   ├── chatController.js
-│   │   │   ├── orderController.js
-│   │   │   ├── paymentController.js
-│   │   │   └── ticketController.js
-│   │   │
-│   │   ├── memory/
-│   │   │   └── conversationMemory.js
-│   │   │
-│   │   ├── models/
-│   │   │   ├── Customer.js
-│   │   │   ├── Order.js
-│   │   │   ├── Payment.js
-│   │   │   ├── Ticket.js
-│   │   │   ├── Conversation.js
-│   │   │   └── KnowledgeChunk.js
-│   │   │
-│   │   ├── rag/
-│   │   │   ├── documentLoader.js
-│   │   │   ├── chunker.js
-│   │   │   ├── embeddings.js
-│   │   │   ├── retriever.js
-│   │   │   └── contextBuilder.js
-│   │   │
-│   │   ├── routes/
-│   │   │   ├── chatRoutes.js
-│   │   │   ├── orderRoutes.js
-│   │   │   ├── paymentRoutes.js
-│   │   │   ├── ticketRoutes.js
-│   │   │   └── escalateRoutes.js
-│   │   │
-│   │   ├── services/
-│   │   │   ├── groqService.js
-│   │   │   └── ragService.js
-│   │   │
-│   │   └── tools/
-│   │       ├── orderTool.js
-│   │       ├── paymentTool.js
-│   │       ├── ticketTool.js
-│   │       └── escalationTool.js
-│   │
-│   ├── knowledge_base/
-│   │   ├── faq.md
-│   │   ├── refund_policy.md
-│   │   ├── cancellation_policy.md
-│   │   ├── shipping_policy.md
-│   │   ├── payment_policy.md
-│   │   ├── account_policy.md
-│   │   ├── product_information.md
-│   │   └── support_guidelines.md
-│   │
-│   ├── test/
-│   │   └── api.test.js
-│   │
-│   ├── app.js
-│   ├── server.js
-│   ├── seed.js
-│   ├── package.json
-│   ├── .env
-│   └── .env.example
-│
-├── frontend/
-│
-├── docs/
-│
-├── .gitignore
-└── README.md
+------------------------------------------------------------------------
+
+## 7. Application Workflow
+
+``` text
+Customer Query
+      │
+      ▼
+Express /chat API
+      │
+      ▼
+Conversation Memory
+      │
+      ▼
+AI Agent
+      │
+      ├── Knowledge Question ──► RAG ──► Vector Search ──► Groq ──► Response
+      │
+      ├── Order Question ──────► Order Tool ──────────────► Groq ──► Response
+      │
+      ├── Payment Question ────► Payment Tool ────────────► Groq ──► Response
+      │
+      ├── Support Request ─────► Ticket Tool ─────────────► Response
+      │
+      └── Human Request ───────► Escalation Tool ─────────► Ticket
 ```
 
----
+------------------------------------------------------------------------
 
-# 8. Knowledge Base
+## 8. Knowledge Base
 
-The system uses company-specific Markdown documents as its knowledge base.
+The knowledge base is stored in:
 
-Current documents include:
+``` text
+backend/knowledge_base/
+```
 
-```text
+It contains:
+
+``` text
 faq.md
+product_information.md
 refund_policy.md
 cancellation_policy.md
 shipping_policy.md
 payment_policy.md
 account_policy.md
-product_information.md
 support_guidelines.md
 ```
 
-The knowledge base contains information about:
+These documents provide company-specific information used by the RAG
+pipeline.
 
-- FAQs
-- Products
-- Refunds
-- Cancellations
-- Shipping
-- Payments
-- Accounts
-- Support guidelines
+------------------------------------------------------------------------
 
----
+## 9. RAG Architecture
 
-# 9. RAG Pipeline
+The RAG pipeline follows:
 
-The RAG pipeline follows this workflow:
-
-```text
-Knowledge Base Documents
-          │
-          ▼
-   Document Loading
-          │
-          ▼
-       Chunking
-          │
-          ▼
-      Embeddings
-          │
-          ▼
- MongoDB Atlas Vector Search
-          │
-          │
-Customer Query
-          │
-          ▼
- Query Embedding
-          │
-          ▼
- Vector Similarity Search
-          │
-          ▼
- Relevant Knowledge Chunks
-          │
-          ▼
-     Context Builder
-          │
-          ▼
-       Groq LLM
-          │
-          ▼
- Grounded Customer Answer
+``` text
+Company Documents
+       │
+       ▼
+Document Loader
+       │
+       ▼
+Text Chunking
+       │
+       ▼
+Hugging Face Embeddings
+       │
+       ▼
+MongoDB Atlas Vector Search
+       │
+       ▼
+User Query Embedding
+       │
+       ▼
+Similarity Retrieval
+       │
+       ▼
+Relevant Context
+       │
+       ▼
+Groq LLM
+       │
+       ▼
+Grounded Customer Response
 ```
 
-## Embedding Model
+### Embedding Model
 
-The project uses:
-
-```text
+``` text
 Xenova/all-MiniLM-L6-v2
 ```
 
-The model produces:
+Embedding dimension:
 
-```text
-384-dimensional embeddings
+``` text
+384
 ```
 
-## Vector Database
+### Vector Search
 
-MongoDB Atlas Vector Search stores the generated embeddings.
+MongoDB Atlas Vector Search is configured using:
 
-Configuration:
-
-```text
+``` text
 Index: vector_index
-Field: embedding
-Dimensions: 384
 Similarity: cosine
 ```
 
-## Grounded Generation
+The application also returns relevant source document names with RAG
+responses.
 
-The retrieved knowledge is supplied to the LLM as context.
+------------------------------------------------------------------------
 
-The RAG prompt instructs the model to:
+## 10. AI Agent Workflow
 
-- Use only the provided knowledge
-- Avoid inventing information
-- Clearly state when information is unavailable
-- Provide a concise customer-facing answer
+The agent receives the customer's request and determines which action
+should be performed.
 
-Knowledge-based responses also return relevant source filenames.
+Supported intents include:
 
----
-
-# 10. AI Agent
-
-The AI agent analyzes the customer's request and determines which action should be performed.
-
-Possible intents include:
-
-```text
+``` text
 knowledge
 order_status
 payment_status
@@ -466,154 +359,136 @@ human_escalation
 unknown
 ```
 
-The agent can also produce multiple actions when a customer asks for multiple pieces of information.
+For example:
 
-Example:
-
-```text
-Where is my order 45821 and what payment method did I use?
+``` text
+"What is your refund policy?"
+        ↓
+knowledge
+        ↓
+RAG
 ```
 
-The agent can identify:
+Whereas:
 
-```text
-1. order_status
-2. payment_status
+``` text
+"Where is my order 45821?"
+        ↓
+order_status
+        ↓
+Order Tool
 ```
 
-and execute both tools.
+For a combined request:
 
----
-
-# 11. Tools
-
-The system implements four functional tools.
-
-## 11.1 Order Status Tool
-
-Checks an order using its business order ID.
-
-Example:
-
-```text
-Order: 45821
-Status: shipped
+``` text
+"Where is my order 45821 and what payment method did I use?"
+        ↓
+Multiple Actions
+        ↓
+Order Tool + Payment Tool
 ```
 
----
+------------------------------------------------------------------------
 
-## 11.2 Payment Status Tool
+## 11. Tool Documentation
 
-Retrieves payment information associated with an order.
+### 1. Order Status Tool
 
-It can return:
-
-- Payment ID
-- Amount
-- Payment status
-- Payment method
-- Transaction ID
-- Payment date
-
----
-
-## 11.3 Support Ticket Tool
-
-Creates a support ticket for a customer.
-
-A ticket includes:
-
-```text
-Ticket ID
-Customer
-Subject
-Description
-Category
-Priority
-Status
-Source
+``` text
+checkOrderStatus(orderId)
 ```
 
----
+Looks up the order in MongoDB and returns:
 
-## 11.4 Human Escalation Tool
+-   Order ID
+-   Product
+-   Amount
+-   Status
+-   Estimated delivery
+-   Delivery address
+-   Customer information
 
-Creates a high-priority ticket when an issue requires human support.
+### 2. Payment Status Tool
 
-The escalation reason is stored with the ticket.
-
-Example endpoint:
-
-```http
-POST /api/escalate
+``` text
+checkPaymentStatus(orderId)
 ```
 
----
+Looks up the corresponding order and payment record and returns payment
+information.
 
-# 12. Conversation Memory
+### 3. Support Ticket Tool
 
-Conversation memory is implemented using MongoDB.
+``` text
+createSupportTicket(...)
+```
+
+Creates a real support ticket in MongoDB with:
+
+-   Ticket ID
+-   Customer
+-   Subject
+-   Description
+-   Category
+-   Priority
+-   Status
+-   Source
+
+### 4. Human Escalation Tool
+
+``` text
+escalateToHuman(...)
+```
+
+Creates a high-priority support ticket and records the reason for
+escalation.
+
+------------------------------------------------------------------------
+
+## 12. Conversation Memory
+
+Conversation memory is implemented using the `Conversation` MongoDB
+model.
 
 Each conversation contains:
 
-```text
-sessionId
-customerId
-messages
-context
-```
-
-The context stores information such as:
-
-```text
-orderId
-lastIntent
-lastToolUsed
-```
+-   `sessionId`
+-   `customerId`
+-   Message history
+-   Last order ID
+-   Last intent
+-   Last tool used
 
 Example:
 
-```text
+``` text
 User:
 Where is my order 45821?
 
-System:
-Stores orderId = 45821
+AI:
+Your order 45821 has been shipped...
 
 User:
 When will it arrive?
 
-System:
-Uses the stored orderId = 45821
+AI:
+Uses the stored order context and understands that
+"it" refers to order 45821.
 ```
 
-This allows follow-up questions to reference information from earlier messages.
+This allows follow-up questions without requiring the customer to repeat
+previously supplied information.
 
----
+------------------------------------------------------------------------
 
-# 13. Ticket Management
+## 13. Ticket Management
 
-Tickets are stored in MongoDB.
+Tickets are stored in MongoDB using the `Ticket` model.
 
-Ticket fields include:
+Supported ticket categories include:
 
-```text
-ticketId
-customerId
-subject
-description
-category
-priority
-status
-source
-escalationReason
-createdAt
-updatedAt
-```
-
-Supported categories include:
-
-```text
+``` text
 order
 payment
 refund
@@ -624,632 +499,527 @@ account
 other
 ```
 
-Supported priorities include:
+Ticket priorities:
 
-```text
+``` text
 low
 medium
 high
 urgent
 ```
 
----
+Ticket statuses:
 
-# 14. API Endpoints
+``` text
+open
+in_progress
+resolved
+closed
+```
 
-## Health
+Tickets can originate from:
 
-```http
+``` text
+ai
+customer
+support_agent
+```
+
+------------------------------------------------------------------------
+
+## 14. API Documentation
+
+### Health Check
+
+``` http
 GET /health
 ```
 
-Returns:
+### Chat
 
-```json
-{
-  "status": "healthy"
-}
-```
-
----
-
-## Chat
-
-```http
+``` http
 POST /api/chat
 ```
 
-Request:
+Example:
 
-```json
+``` json
 {
   "sessionId": "session-123",
-  "customerId": "customer-id",
+  "customerId": "CUSTOMER_ID",
   "message": "Where is my order 45821?"
 }
 ```
 
----
+### Create Ticket
 
-## Order
-
-```http
-GET /api/orders/:id
-```
-
-Example:
-
-```http
-GET /api/orders/45821
-```
-
----
-
-## Payment
-
-```http
-GET /api/payments/:id
-```
-
-Example:
-
-```http
-GET /api/payments/45821
-```
-
----
-
-## Create Ticket
-
-```http
+``` http
 POST /api/tickets
 ```
 
-Example:
+### Get Ticket
 
-```json
-{
-  "customerId": "customer-id",
-  "subject": "Refund request",
-  "description": "I want to request a refund.",
-  "category": "refund",
-  "priority": "medium"
-}
-```
-
----
-
-## Get Ticket
-
-```http
+``` http
 GET /api/tickets/:id
 ```
 
----
+### Get Order
 
-## Human Escalation
+``` http
+GET /api/orders/:id
+```
 
-```http
+### Get Payment
+
+``` http
+GET /api/payments/:id
+```
+
+### Human Escalation
+
+``` http
 POST /api/escalate
 ```
 
-Example:
+------------------------------------------------------------------------
 
-```json
-{
-  "customerId": "customer-id",
-  "subject": "Human support request",
-  "description": "I want to speak to a human support agent.",
-  "category": "other",
-  "reason": "Customer explicitly requested human support."
-}
+## 15. Project Structure
+
+``` text
+ai-customer-support/
+│
+├── backend/
+│   ├── knowledge_base/
+│   ├── src/
+│   │   ├── agents/
+│   │   ├── config/
+│   │   ├── controllers/
+│   │   ├── memory/
+│   │   ├── models/
+│   │   ├── rag/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   └── tools/
+│   ├── test/
+│   ├── app.js
+│   ├── server.js
+│   ├── seed.js
+│   ├── index-knowledge.js
+│   ├── package.json
+│   └── .env.example
+│
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   ├── package.json
+│   └── vite.config.js
+│
+├── docs/
+│   ├── architecture.png
+│   └── screenshots/
+│       ├── 01-home.png
+│       ├── 02-rag-response.png
+│       ├── 03-order-tool.png
+│       ├── 04-conversation-memory.png
+│       └── 05-multiple-tools.png
+│
+├── README.md
+└── .gitignore
 ```
 
----
+------------------------------------------------------------------------
 
-# 15. Error Handling
+## 16. Installation
 
-The backend handles errors such as:
+### Clone the repository
 
-- Missing session ID
-- Missing chat message
-- Invalid order ID
-- Order not found
-- Payment not found
-- Customer not found
-- Missing ticket information
-- Tool failures
-- Retrieval failures
-- Embedding failures
-- LLM failures
-- Ticket creation failures
-
-The system returns structured API responses such as:
-
-```json
-{
-  "success": false,
-  "error": "Order 99999 not found."
-}
+``` bash
+git clone https://github.com/CODER-1905-UMANG/ai-customer-support.git
+cd ai-customer-support
 ```
 
-Internal errors are logged on the backend while customer-facing responses remain controlled.
+### Backend
 
----
-
-# 16. Testing
-
-The project uses:
-
-```text
-Jest
-Supertest
-```
-
-Run the test suite with:
-
-```bash
+``` bash
 cd backend
-npm test
-```
-
-Current automated test result:
-
-```text
-Test Suites: 1 passed, 1 total
-Tests:       13 passed, 13 total
-```
-
-The automated tests cover:
-
-1. Health endpoint
-2. Order API
-3. Payment API
-4. Invalid order API
-5. Human escalation
-6. Knowledge-base question
-7. Refund RAG flow
-8. AI order-status tool
-9. AI payment-status tool
-10. Unknown query
-11. Invalid order through the AI agent
-12. Multiple requests in one message
-13. Conversation memory
-
-Additional failure scenarios have also been tested separately, including tool failure and retrieval failure.
-
----
-
-# 17. Running the Project
-
-## Prerequisites
-
-Install:
-
-- Node.js
-- npm
-- MongoDB Atlas account
-- Groq API key
-
----
-
-## Backend Setup
-
-Navigate to:
-
-```bash
-cd backend
-```
-
-Install dependencies:
-
-```bash
 npm install
 ```
 
 Create:
 
-```text
-.env
+``` text
+backend/.env
 ```
 
-Example:
+using:
 
-```env
+``` text
+backend/.env.example
+```
+
+Required environment variables:
+
+``` env
 PORT=5000
 MONGODB_URI=your_mongodb_connection_string
 GROQ_API_KEY=your_groq_api_key
 ```
 
-Never commit the real `.env` file.
+### Frontend
 
----
+Open another terminal:
 
-## Seed Database
-
-Run:
-
-```bash
-npm run seed
-```
-
-This creates sample:
-
-- Customers
-- Orders
-- Payments
-- Tickets
-
----
-
-## Start Backend
-
-Development:
-
-```bash
-npm run dev
-```
-
-Production-style:
-
-```bash
-npm start
-```
-
-Backend runs on:
-
-```text
-http://localhost:5000
-```
-
----
-
-## Start Frontend
-
-Navigate to:
-
-```bash
+``` bash
 cd frontend
-```
-
-Install dependencies:
-
-```bash
 npm install
 ```
 
-Start Vite:
+------------------------------------------------------------------------
 
-```bash
+## 17. Running the Application
+
+### Start Backend
+
+From `backend/`:
+
+``` bash
 npm run dev
 ```
 
-Frontend runs on:
+Backend:
 
-```text
+``` text
+http://localhost:5000
+```
+
+### Start Frontend
+
+From `frontend/`:
+
+``` bash
+npm run dev
+```
+
+Frontend:
+
+``` text
 http://localhost:5173
 ```
 
----
+------------------------------------------------------------------------
 
-# 18. Environment Variables
+## 18. Seed Database
 
-The following environment variables are required:
+To populate the application database with sample customers, orders,
+payments, and tickets:
 
-```env
-PORT=
-MONGODB_URI=
-GROQ_API_KEY=
+``` bash
+cd backend
+npm run seed
 ```
 
-API keys and database credentials must never be committed to GitHub.
+------------------------------------------------------------------------
 
-Use `.env.example` for documenting required variables.
+## 19. Index Knowledge Base
 
----
+To generate embeddings and index knowledge-base chunks:
 
-# 19. Example Queries
+``` bash
+cd backend
+node index-knowledge.js
+```
+
+This loads the Markdown documents, creates chunks, generates embeddings,
+and stores the vectors in MongoDB Atlas.
+
+------------------------------------------------------------------------
+
+## 20. Testing
+
+The project uses Jest and Supertest.
+
+Run:
+
+``` bash
+cd backend
+npm test
+```
+
+The final automated API test suite contains **13 passing tests**.
+
+Covered scenarios include:
+
+  Scenario                        Status
+  ------------------------------- --------
+  Health check                    ✅
+  Order API                       ✅
+  Payment API                     ✅
+  Invalid order                   ✅
+  Human escalation                ✅
+  General/KB question             ✅
+  Refund question                 ✅
+  Order status                    ✅
+  Payment status                  ✅
+  Unknown question                ✅
+  Multiple requests               ✅
+  Conversation memory             ✅
+  API validation/error behavior   ✅
+
+Additional failure-path testing was performed for tool and retrieval
+failures during development.
+
+------------------------------------------------------------------------
+
+## 21. Sample Customer Queries
 
 ### Knowledge Base
 
-```text
-What payment methods do you accept?
-```
-
-```text
+``` text
 What is your refund policy?
 ```
 
-```text
-Can I cancel my order after it has been shipped?
+``` text
+What payment methods do you accept?
+```
+
+``` text
+What is your cancellation policy?
 ```
 
 ### Order
 
-```text
+``` text
 Where is my order 45821?
 ```
 
 ### Payment
 
-```text
+``` text
 What payment method did I use for order 45821?
 ```
 
-### Multiple Requests
+### Multiple Tools
 
-```text
+``` text
 Where is my order 45821 and what payment method did I use?
 ```
 
 ### Memory
 
-```text
+``` text
 Where is my order 45821?
 ```
 
-Follow-up:
+Followed by:
 
-```text
+``` text
 When will it arrive?
 ```
 
-### Human Support
+### Human Escalation
 
-```text
+``` text
 I want to speak to a human support agent.
 ```
 
----
+------------------------------------------------------------------------
 
-# 20. Sample Workflow
+## 22. Error Handling
 
-A typical order-status request follows this workflow:
+The application uses validation, structured tool responses, exception
+handling, and fallback responses.
 
-```text
-Customer
-   │
-   ▼
-React Frontend
-   │
-   ▼
-POST /api/chat
-   │
-   ▼
-Agent Router
-   │
-   ▼
-Agent identifies order_status
-   │
-   ▼
-Order Status Tool
-   │
-   ▼
-MongoDB
-   │
-   ▼
-Order information
-   │
-   ▼
-AI Response
-   │
-   ▼
-Customer
-```
+Examples include:
 
-A knowledge-based request follows:
+### Invalid Order
 
-```text
-Customer
-   │
-   ▼
-POST /api/chat
-   │
-   ▼
-Agent
-   │
-   ▼
-RAG Service
-   │
-   ▼
-Query Embedding
-   │
-   ▼
-MongoDB Vector Search
-   │
-   ▼
-Relevant Knowledge
-   │
-   ▼
-Groq LLM
-   │
-   ▼
-Grounded Answer + Sources
-   │
-   ▼
-Customer
-```
-
----
-
-# 21. Security Considerations
-
-- API keys are stored in environment variables.
-- `.env` should not be committed.
-- Database credentials should not be exposed to the frontend.
-- Backend APIs validate required inputs.
-- Customer-facing responses do not expose internal prompts.
-- RAG responses are instructed to use retrieved company knowledge rather than inventing unsupported information.
-
----
-
-# 22. Limitations
-
-Current limitations include:
-
-- The application currently uses seeded sample customer/order/payment data.
-- Authentication and authorization are not implemented as a production identity system.
-- The human escalation workflow currently creates a support ticket rather than integrating with an external human-agent platform.
-- External order/payment providers are not connected.
-- The local embedding model requires the model to be available in the runtime environment.
-- Production deployment would require additional security, monitoring, rate limiting, and infrastructure configuration.
-
----
-
-# 23. Future Improvements
-
-Possible future improvements include:
-
-- Customer authentication
-- Role-based access control
-- Real order-management API integration
-- Real payment-provider integration
-- External helpdesk integration
-- Streaming AI responses
-- Better ticket dashboard
-- Agent analytics
-- Conversation analytics
-- Feedback and response evaluation
-- More advanced retrieval strategies
-- Reranking retrieved documents
-- Production monitoring and observability
-- Rate limiting
-- Automated deployment
-- Cloud deployment
-
----
-
-# 24. Demo Flow
-
-The recommended demonstration flow is:
-
-### 1. Knowledge Base Question
-
-```text
-What payment methods do you accept?
-```
-
-Show the generated answer and retrieved sources.
-
-### 2. RAG
-
-```text
-What is your refund policy?
-```
-
-Show the answer and source documents.
-
-### 3. Order Tool
-
-```text
-Where is my order 45821?
-```
-
-Show that the system retrieves real order data from MongoDB.
-
-### 4. Payment Tool
-
-```text
-What payment method did I use for order 45821?
-```
-
-### 5. Multiple Tools
-
-```text
-Where is my order 45821 and what payment method did I use?
-```
-
-Show that multiple actions are executed.
-
-### 6. Memory
-
-```text
-Where is my order 45821?
-```
-
-Then:
-
-```text
-When will it arrive?
-```
-
-Show that the second query uses the previous order context.
-
-### 7. Ticket Creation
-
-Ask for support that requires a ticket.
-
-### 8. Human Escalation
-
-```text
-I want to speak to a human support agent.
-```
-
-Show the generated high-priority ticket.
-
-### 9. Error Scenario
-
-```text
+``` text
 Where is my order 99999?
 ```
 
-Show the controlled error response.
+The order tool returns a meaningful not-found response instead of
+failing silently.
 
----
+### Retrieval Failure
 
-# 25. Project Status
+The RAG service catches retrieval errors and returns a controlled
+application error.
 
-Current implementation includes:
+### Tool Failure
 
-- [x] React frontend
-- [x] Express backend
-- [x] MongoDB Atlas
-- [x] Knowledge base
-- [x] Document chunking
-- [x] Embedding generation
-- [x] MongoDB Vector Search
-- [x] RAG pipeline
-- [x] Groq LLM integration
-- [x] AI agent
-- [x] Order tool
-- [x] Payment tool
-- [x] Ticket creation tool
-- [x] Human escalation tool
-- [x] Conversation memory
-- [x] Multiple-action handling
-- [x] Error handling
-- [x] API endpoints
-- [x] Automated testing
-- [x] 13 passing automated tests
-- [ ] Architecture diagram image
-- [ ] Demo video
-- [ ] Final screenshots
-- [ ] GitHub publication
+Tool exceptions are caught and converted into structured failure
+responses.
 
----
+### LLM Failure
 
-# 26. Conclusion
+Groq API errors are caught by the LLM service and propagated through the
+application's error-handling flow.
 
-This project demonstrates an AI-powered customer support system that combines:
+### Missing Input
 
-```text
-LLM
-+
-RAG
-+
-Embeddings
-+
-Vector Search
-+
-AI Agent
-+
-Tool Calling
-+
-Conversation Memory
-+
-Ticket Automation
-+
-Human Escalation
+API controllers validate required fields such as:
+
+``` text
+sessionId
+message
+customerId
+ticket information
 ```
 
-The architecture allows the AI assistant to move beyond simple conversational responses and interact with application data and support workflows through backend tools.
+------------------------------------------------------------------------
+
+## 23. Security
+
+-   API keys are stored in environment variables.
+-   `.env` files are excluded from Git.
+-   `.env.example` contains placeholders only.
+-   Secrets are not committed to GitHub.
+-   MongoDB credentials are not stored in source code.
+
+------------------------------------------------------------------------
+
+## 24. Screenshots
+
+Project screenshots are available in:
+
+``` text
+docs/screenshots/
+```
+
+Included screenshots demonstrate:
+
+1.  Home interface
+2.  RAG response
+3.  Order tool
+4.  Conversation memory
+5.  Multiple tool execution
+
+------------------------------------------------------------------------
+
+## 25. Demo Video
+
+Watch the full project demonstration here:
+
+🎥 [Demo Video](PASTE_YOUR_DEMO_VIDEO_LINK_HERE)
+
+------------------------------------------------------------------------
+
+## 26. Demo
+
+The final demonstration covers:
+
+1.  Knowledge-base question
+2.  RAG retrieval
+3.  Action-based order query
+4.  Tool calling
+5.  Multiple tools
+6.  Conversation memory
+7.  Support-ticket workflow
+8.  Human escalation
+9.  Error handling
+10. Technical architecture
+
+------------------------------------------------------------------------
+
+## 27. Known Limitations
+
+-   Order and payment information currently uses application data stored
+    in MongoDB rather than live external order/payment provider APIs.
+-   Human escalation creates a support ticket; it does not connect to a
+    live human-agent platform.
+-   The frontend currently uses a fixed demo customer/session
+    configuration.
+-   The knowledge base is currently Markdown-based and must be
+    re-indexed when its content changes.
+-   The system is intended as a project/demo implementation rather than
+    a production customer-support platform.
+
+------------------------------------------------------------------------
+
+## 28. Future Improvements
+
+-   Authentication and customer accounts.
+-   Live order-management API integration.
+-   Payment-provider integration.
+-   Production ticket-management integration.
+-   Streaming LLM responses.
+-   Better conversation summarization for long sessions.
+-   Admin dashboard for tickets.
+-   Human-agent live chat.
+-   More advanced evaluation and observability.
+-   Production deployment with secure infrastructure.
+-   Automated knowledge-base re-indexing.
+
+------------------------------------------------------------------------
+
+## 29. Final Project Status
+
+``` text
+✅ React Frontend
+✅ Express Backend
+✅ MongoDB Atlas
+✅ Knowledge Base
+✅ Document Processing
+✅ Text Chunking
+✅ Embeddings
+✅ MongoDB Vector Search
+✅ RAG Pipeline
+✅ Groq LLM
+✅ AI Agent
+✅ Order Tool
+✅ Payment Tool
+✅ Support Ticket Tool
+✅ Human Escalation Tool
+✅ Conversation Memory
+✅ Multiple-Action Handling
+✅ Error Handling
+✅ REST APIs
+✅ Automated Testing
+✅ 13 Passing API Tests
+✅ Architecture Diagram
+✅ Screenshots
+✅ Demo
+✅ GitHub Repository
+```
+
+------------------------------------------------------------------------
+
+## 30. Repository
+
+GitHub:
+
+https://github.com/CODER-1905-UMANG/ai-customer-support
+
+------------------------------------------------------------------------
+
+## 31. Conclusion
+
+The project demonstrates a complete AI customer-support workflow:
+
+``` text
+Customer
+   ↓
+React Frontend
+   ↓
+Express API
+   ↓
+AI Agent
+   ↓
+┌───────────────┬────────────────┐
+│               │                │
+RAG           Tools           Memory
+│               │                │
+Vector DB    App Database      MongoDB
+│               │
+└───────────────┴────────────────┘
+                ↓
+              Groq
+                ↓
+       Customer Response
+                ↓
+      Ticket / Escalation
+```
+
+The system combines Generative AI with retrieval, application tools,
+persistent conversation context, APIs, testing, and automated support
+workflows rather than functioning as an LLM-only chatbot.
