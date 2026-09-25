@@ -900,7 +900,7 @@ Included screenshots demonstrate:
 
 Watch the full project demonstration here:
 
-🎥 [Demo Video](PASTE_YOUR_DEMO_VIDEO_LINK_HERE)
+🎥 [Demo Video](https://drive.google.com/file/d/1G9HOl3GIN5LOvK-yLj4IUpPsT6_XYucH/view?usp=drive_link)
 
 ------------------------------------------------------------------------
 
